@@ -33,6 +33,8 @@ public class Book {
     @Column(nullable = false)
     private String isbn;
 
+    public Book(){ }
+
     public String getIsbn() {
         return isbn;
     }
