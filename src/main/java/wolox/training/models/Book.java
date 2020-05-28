@@ -2,6 +2,7 @@ package wolox.training.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import jdk.nashorn.internal.objects.annotations.Constructor;
 
 @Entity
 public class Book {
@@ -33,6 +34,7 @@ public class Book {
     @Column(nullable = false)
     private String isbn;
 
+    @Constructor
     public Book(String genre, String author, String image, String title, String subtitle,
         String publisher, String year, int pages, String isbn) {
         this.genre = genre;
