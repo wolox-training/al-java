@@ -2,10 +2,17 @@ package wolox.training.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import jdk.nashorn.internal.objects.annotations.Constructor;
 
 @Entity
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Column()
     private String genre;
@@ -29,24 +36,14 @@ public class Book {
     private String year;
 
     @Column(nullable = false)
-    private int pages;
+    private Integer pages;
 
     @Column(nullable = false)
     private String isbn;
 
-    @Constructor
-    public Book(String genre, String author, String image, String title, String subtitle,
-        String publisher, String year, int pages, String isbn) {
-        this.genre = genre;
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.pages = pages;
-        this.isbn = isbn;
-    }
+    public Book() { }
+
+    public long getId(){ return id; }
 
     public String getIsbn() {
         return isbn;
