@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -16,19 +15,22 @@ public class BookController {
     private BookRepository bookRepository;
 
     @GetMapping("/author/{author}")
-    public Optional<Book> findByAuthor(@PathVariable String author){
-        return bookRepository.findFirstByAuthor(author).orElseThrow(BookNotFoundException::new);
+    public Book findByAuthor(@PathVariable String author) throws BookNotFoundException {
+        return bookRepository.findFirstByAuthor(author)
+            .orElseThrow(() -> new BookNotFoundException(author, "author"));
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book){
-        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+    public Book updateBook(@PathVariable Long id, @RequestBody Book book) throws BookNotFoundException{
+        bookRepository.findById(id)
+            .orElseThrow(() -> new BookNotFoundException(id.toString(), "id"));
         return bookRepository.save(book);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+    public void delete(@PathVariable Long id) throws BookNotFoundException {
+        bookRepository.findById(id)
+            .orElseThrow(() -> new BookNotFoundException(id.toString(), "id"));
         bookRepository.deleteById(id);
     }
 
