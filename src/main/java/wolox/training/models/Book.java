@@ -38,7 +38,7 @@ public class Book {
     @Column(nullable = false)
     private Integer pages;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
 
     public Book() { }
@@ -116,4 +116,5 @@ public class Book {
     public void setImage(String image) {
         this.image = image;
     }
+    
 }
