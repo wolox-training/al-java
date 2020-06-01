@@ -116,5 +116,4 @@ public class Book {
     public void setImage(String image) {
         this.image = image;
     }
-    
 }
