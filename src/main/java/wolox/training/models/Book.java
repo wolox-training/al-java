@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import jdk.nashorn.internal.objects.annotations.Constructor;
 
 @Entity
@@ -17,6 +18,7 @@ public class Book {
     @Column()
     private String genre;
 
+    @ManyToMany(mappedBy = "books")
     @Column(nullable = false)
     private String author;
 
