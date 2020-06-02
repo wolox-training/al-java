@@ -17,7 +17,7 @@ public class BookController {
 
     /**
      * @param author (Method will search a book by this field)
-     * @return {@link Book}
+     * @return {@link Book} (The first book that it finds)
      * @throws BookNotFoundException (If we can't find a book by this author)
      */
     @GetMapping("/author/{author}")
@@ -30,7 +30,7 @@ public class BookController {
      *
      * @param id (Id of the Book)
      * @param book (Params for book update)
-     * @return {@link Book}
+     * @return {@link Book} Updated book
      * @throws BookNotFoundException (If we can't find a book by this id)
      */
     @PutMapping("/{id}")
@@ -55,7 +55,7 @@ public class BookController {
     /**
      *
      * @param book (The Book will be created)
-     * @return {@link Book}
+     * @return {@link Book} Created book
      */
     @PostMapping
     public Book create(@RequestBody Book book){
