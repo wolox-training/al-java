@@ -80,6 +80,9 @@ public class User {
         this.books.add(book);
     }
 
+    public void removeBook(Book book) {
+        books.remove(book);
+    }
 
     public User(){}
 }
