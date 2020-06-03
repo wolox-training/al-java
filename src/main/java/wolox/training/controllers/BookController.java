@@ -11,15 +11,28 @@ import wolox.training.repositories.BookRepository;
 @RequestMapping("/api/books")
 public class BookController {
 
+
     @Autowired
     private BookRepository bookRepository;
 
+    /**
+     * @param author (Method will search a book by this field)
+     * @return {@link Book} (The first book that it finds)
+     * @throws BookNotFoundException (If we can't find a book by this author)
+     */
     @GetMapping("/author/{author}")
     public Book findByAuthor(@PathVariable String author) throws BookNotFoundException {
         return bookRepository.findFirstByAuthor(author)
             .orElseThrow(() -> new BookNotFoundException(author, "author"));
     }
 
+    /**
+     *
+     * @param id (Id of the Book)
+     * @param book (Params for book update)
+     * @return {@link Book} Updated book
+     * @throws BookNotFoundException (If we can't find a book by this id)
+     */
     @PutMapping("/{id}")
     public Book updateBook(@PathVariable Long id, @RequestBody Book book) throws BookNotFoundException{
         bookRepository.findById(id)
@@ -27,6 +40,11 @@ public class BookController {
         return bookRepository.save(book);
     }
 
+    /**
+     *
+     * @param id (Id of the Book)
+     * @throws BookNotFoundException (If we can't find a book by this id)
+     */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) throws BookNotFoundException {
         bookRepository.findById(id)
@@ -34,9 +52,14 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
+    /**
+     *
+     * @param book (The Book will be created)
+     * @return {@link Book} Created book
+     */
     @PostMapping
-    public void create(@RequestBody Book book){
-        bookRepository.save(book);
+    public Book create(@RequestBody Book book){
+        return bookRepository.save(book);
     }
 
     @GetMapping("/greeting")
