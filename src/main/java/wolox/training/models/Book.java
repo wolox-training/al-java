@@ -1,5 +1,8 @@
 package wolox.training.models;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -11,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+@ApiModel(description = "Books for users")
 public class Book {
 
     @Id
@@ -27,6 +31,7 @@ public class Book {
     @Column(nullable = false)
     private String image;
 
+    @ApiModelProperty(notes = "Book's title")
     @Column(nullable = false)
     private String title;
 
