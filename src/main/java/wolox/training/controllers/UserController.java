@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
 @RestController
@@ -22,6 +24,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     @GetMapping
     public User getUser(@PathVariable Long id) throws UserNotFoundException {
@@ -49,19 +53,23 @@ public class UserController {
         userRepository.save(user);
     }
 
-    @PostMapping
-    public void attachBook(@RequestBody Book book, @PathVariable Long id)
-        throws UserNotFoundException, BookAlreadyOwnedException {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id.toString(), "id"));
-        user.addBook(book);
+    @DeleteMapping("/attach/{user_id}/{book_id}")
+    public void detachBook(@PathVariable Long book_id, @PathVariable Long user_id)
+        throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
+        User user = userRepository.findById(user_id)
+            .orElseThrow(() -> new UserNotFoundException(user_id.toString(), "id"));
+        Book book = bookRepository.findById(book_id)
+            .orElseThrow(() -> new BookNotFoundException(book_id.toString(), "id"));
+        user.removeBook(book);
     }
 
-    @DeleteMapping
-    public void detachBook(@RequestBody Book book, @PathVariable Long id)
-        throws UserNotFoundException {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id.toString(), "id"));
-        user.removeBook(book);
+    @PostMapping("/attach/{user_id}/{book_id}")
+    public void attachBook(@PathVariable Long book_id, @PathVariable Long user_id)
+        throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
+        User user = userRepository.findById(user_id)
+            .orElseThrow(() -> new UserNotFoundException(user_id.toString(), "id"));
+        Book book = bookRepository.findById(book_id)
+            .orElseThrow(() -> new BookNotFoundException(book_id.toString(), "id"));
+        user.addBook(book);
     }
 }
