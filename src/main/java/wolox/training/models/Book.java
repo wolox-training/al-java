@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +46,7 @@ public class Book {
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
-    private ArrayList<User> users = new ArrayList<User>();
+    private List<User> users = new ArrayList<User>();
 
     public Book() { }
 
