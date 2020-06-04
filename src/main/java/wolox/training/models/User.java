@@ -22,12 +22,12 @@ import wolox.training.exceptions.BookAlreadyOwnedException;
 public class User {
 
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
     @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ")
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
