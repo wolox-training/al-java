@@ -49,11 +49,11 @@ public class UserController {
     }
 
     @PostMapping
-    public void create(@RequestBody User user){
-        userRepository.save(user);
+    public User create(@RequestBody User user){
+        return userRepository.save(user);
     }
 
-    @DeleteMapping("/attach/{user_id}/{book_id}")
+    @DeleteMapping("/detach/{user_id}/{book_id}")
     public void detachBook(@PathVariable Long book_id, @PathVariable Long user_id)
         throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
         User user = userRepository.findById(user_id)
