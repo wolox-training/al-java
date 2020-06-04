@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -62,6 +63,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
+        Preconditions.checkNotNull(isbn, "isbn must be not null");
         this.isbn = isbn;
     }
 
@@ -70,6 +72,7 @@ public class Book {
     }
 
     public void setPages(int pages) {
+        Preconditions.checkNotNull(pages, "pages must be not null");
         this.pages = pages;
     }
 
@@ -78,6 +81,7 @@ public class Book {
     }
 
     public void setYear(String year) {
+        Preconditions.checkNotNull(year, "year must be not null");
         this.year = year;
     }
 
@@ -86,6 +90,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+        Preconditions.checkNotNull(publisher, "publisher must be not null");
         this.publisher = publisher;
     }
 
@@ -94,6 +99,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
+        Preconditions.checkNotNull(subtitle, "subtitle must be not null");
         this.subtitle = subtitle;
     }
 
@@ -102,6 +108,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+        Preconditions.checkNotNull(author, "author must be not null");
         this.author = author;
     }
 
@@ -110,6 +117,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
+        Preconditions.checkNotNull(title, "title must be not null");
         this.title = title;
     }
 
@@ -126,6 +134,7 @@ public class Book {
     }
 
     public void setImage(String image) {
+        Preconditions.checkNotNull(image, "image must be not null");
         this.image = image;
     }
 }
