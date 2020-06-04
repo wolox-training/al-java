@@ -11,11 +11,11 @@ import wolox.training.repositories.BookRepository;
 @RequestMapping("/api/books")
 public class BookController {
 
-
     @Autowired
     private BookRepository bookRepository;
 
     /**
+     * Returns the first Book that is found filtered by its author
      * @param author (Method will search a book by this field)
      * @return {@link Book} (The first book that it finds)
      * @throws BookNotFoundException (If we can't find a book by this author)
@@ -27,7 +27,7 @@ public class BookController {
     }
 
     /**
-     *
+     * Updates the given Book
      * @param id (Id of the Book)
      * @param book (Params for book update)
      * @return {@link Book} Updated book
@@ -41,7 +41,7 @@ public class BookController {
     }
 
     /**
-     *
+     * Deletes the given Book
      * @param id (Id of the Book)
      * @throws BookNotFoundException (If we can't find a book by this id)
      */
@@ -53,7 +53,7 @@ public class BookController {
     }
 
     /**
-     *
+     * Creates a new Book
      * @param book (The Book will be created)
      * @return {@link Book} Created book
      */
