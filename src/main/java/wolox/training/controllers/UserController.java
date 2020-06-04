@@ -55,7 +55,7 @@ public class UserController {
     }
 
     /**
-     *
+     * Deletes user by id
      * @param id (id of user)
      * @throws UserNotFoundException (If it can't find a user by this id)
      */
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     /**
-     *
+     * Creates a new user
      * @param user (user to be created)
      * @return {@link User} (created user)
      */
@@ -77,7 +77,7 @@ public class UserController {
     }
 
     /**
-     *
+     * Detaches existing book from user
      * @param book_id (the id of the book that we try to detach)
      * @param user_id (the id of the user we want)
      * @throws UserNotFoundException (If it can't find a user by this id)
@@ -94,7 +94,7 @@ public class UserController {
     }
 
     /**
-     *
+     * Attaches a book to an user
      * @param book_id (the id of the book that we try to attach)
      * @param user_id (the id of the user we want)
      * @throws UserNotFoundException (If it can't find a user by this id)
