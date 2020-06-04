@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookNotFoundException;
 
 @Entity
 @Table(name = "users")
@@ -78,6 +79,12 @@ public class User {
         this.books.add(book);
     }
 
+    public void removeBook(Book book) throws  BookNotFoundException{
+        if(!(getBooks().contains(book))){
+            throw new BookNotFoundException(String.valueOf(book.getId()), "id");
+        }
+        books.remove(book);
+    }
 
     public User(){}
 }
