@@ -27,11 +27,10 @@ public class UserController {
     @Autowired
     private BookRepository bookRepository;
 
-    @GetMapping
+    @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) throws UserNotFoundException {
-        User user = userRepository.findById(id)
+        return userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException(id.toString(), "id"));
-        return user;
     }
 
     @PutMapping("/{id}")
