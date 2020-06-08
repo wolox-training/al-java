@@ -1,6 +1,6 @@
 package wolox.training.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +50,11 @@ public class UserController {
     @PostMapping
     public User create(@RequestBody User user){
         return userRepository.save(user);
+    }
+
+    @GetMapping("/")
+    public List<User> getUsers(){
+        return userRepository.findAll();
     }
 
     @DeleteMapping("/attach/{user_id}/{book_id}")
