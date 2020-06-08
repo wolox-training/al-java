@@ -52,12 +52,12 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public List<User> getUsers(){
         return userRepository.findAll();
     }
 
-    @DeleteMapping("/attach/{user_id}/{book_id}")
+    @DeleteMapping("/dettach/{user_id}/{book_id}")
     public void detachBook(@PathVariable Long book_id, @PathVariable Long user_id)
         throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
         User user = userRepository.findById(user_id)
