@@ -31,7 +31,7 @@ public class Book {
     @Column(nullable = false)
     private String image;
 
-    @ApiModelProperty(notes = "Book's title")
+    @ApiModelProperty(notes = "Book's title", required = true)
     @Column(nullable = false)
     private String title;
 

@@ -43,7 +43,10 @@ public class BookController {
     @ApiOperation(value = "Giving an Id and a Book, it updates that book", response = Book.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfuly updated book"),
-        @ApiResponse(code = 404, message = "Book Not Found")
+        @ApiResponse(code = 404, message = "Book Not Found"),
+        @ApiResponse(code = 401, message = "You are not authorized to access this resource"),
+        @ApiResponse(code = 404, message = "The resource you are trying to access was not found"),
+        @ApiResponse(code = 500, message = "Internal server error")
     })
     public Book updateBook(
         @ApiParam(value = "id to find book") @PathVariable Long id,
