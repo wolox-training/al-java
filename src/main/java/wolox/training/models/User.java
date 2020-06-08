@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.ErrorConstants;
 
 @Entity
 @Table(name = "users")
@@ -40,6 +41,8 @@ public class User {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<Book>();
 
+    public User(){}
+
     public long getId() {
         return id;
     }
@@ -49,7 +52,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        Preconditions.checkNotNull(username, "username must be not null");
+        Preconditions.checkNotNull(username, String.format(ErrorConstants.NOT_NULL, "username"));
         this.username = username;
     }
 
@@ -58,7 +61,7 @@ public class User {
     }
 
     public void setName(String name) {
-        Preconditions.checkNotNull(name, "name must be not null");
+        Preconditions.checkNotNull(name, String.format(ErrorConstants.NOT_NULL, "name"));
         this.name = name;
     }
 
@@ -67,7 +70,9 @@ public class User {
     }
 
     public void setBirthDate(LocalDate birthDate) {
-        Preconditions.checkNotNull(birthDate, "birthDate must be not null");
+        Preconditions.checkNotNull(birthDate, String.format(ErrorConstants.NOT_NULL, "birthDate"));
+        Preconditions.checkNotNull(LocalDate.now().compareTo(birthDate),
+            String.format(ErrorConstants.NOT_NULL, "birthDate"));
         this.birthDate = birthDate;
     }
 
@@ -85,6 +90,4 @@ public class User {
     public void removeBook(Book book) {
         books.remove(book);
     }
-
-    public User(){}
 }

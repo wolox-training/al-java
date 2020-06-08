@@ -1,7 +1,6 @@
 package wolox.training.models;
 
 import com.google.common.base.Preconditions;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -13,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import org.apache.tomcat.util.codec.binary.StringUtils;
+import org.thymeleaf.util.NumberUtils;
+import wolox.training.exceptions.ErrorConstants;
 
 @Entity
 @ApiModel(description = "Books for users")
@@ -63,7 +65,9 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
-        Preconditions.checkNotNull(isbn, "isbn must be not null");
+        Preconditions.checkNotNull(isbn, String.format(ErrorConstants.NOT_NULL, "isbn"));
+        Preconditions.checkArgument(isbn.matches("\\d+(\\.\\d+)?"),
+            String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "isbn"), isbn);
         this.isbn = isbn;
     }
 
@@ -72,7 +76,10 @@ public class Book {
     }
 
     public void setPages(int pages) {
-        Preconditions.checkNotNull(pages, "pages must be not null");
+        Preconditions.checkNotNull(pages, String.format(ErrorConstants.NOT_NULL, "pages"));
+        Preconditions.checkArgument(pages > 0,
+            String.format(ErrorConstants.GREATER_THAN_ZERO, "pages"), pages);
+
         this.pages = pages;
     }
 
@@ -81,7 +88,9 @@ public class Book {
     }
 
     public void setYear(String year) {
-        Preconditions.checkNotNull(year, "year must be not null");
+        Preconditions.checkNotNull(year, String.format(ErrorConstants.NOT_NULL, "year"));
+        Preconditions.checkArgument(year.matches("\\d+(\\.\\d+)?"),
+            String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "year"), year);
         this.year = year;
     }
 
@@ -90,7 +99,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
-        Preconditions.checkNotNull(publisher, "publisher must be not null");
+        Preconditions.checkNotNull(publisher, String.format(ErrorConstants.NOT_NULL, "publisher"));
         this.publisher = publisher;
     }
 
@@ -99,7 +108,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        Preconditions.checkNotNull(subtitle, "subtitle must be not null");
+        Preconditions.checkNotNull(subtitle, String.format(ErrorConstants.NOT_NULL, "subtitle"));
         this.subtitle = subtitle;
     }
 
@@ -108,7 +117,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        Preconditions.checkNotNull(author, "author must be not null");
+        Preconditions.checkNotNull(author, String.format(ErrorConstants.NOT_NULL, "author"));
         this.author = author;
     }
 
@@ -117,7 +126,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        Preconditions.checkNotNull(title, "title must be not null");
+        Preconditions.checkNotNull(title, String.format(ErrorConstants.NOT_NULL, "title"));
         this.title = title;
     }
 
@@ -134,7 +143,7 @@ public class Book {
     }
 
     public void setImage(String image) {
-        Preconditions.checkNotNull(image, "image must be not null");
+        Preconditions.checkNotNull(image, String.format(ErrorConstants.NOT_NULL, "image"));
         this.image = image;
     }
 }
