@@ -66,7 +66,7 @@ public class Book {
 
     public void setIsbn(String isbn) {
         Preconditions.checkNotNull(isbn, String.format(ErrorConstants.NOT_NULL, "isbn"));
-        Preconditions.checkArgument(isbn.matches("\\d+(\\.\\d+)?"),
+        Preconditions.checkArgument(isbn.matches("^(0|[1-9][0-9]*)$\n"),
             String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "isbn"), isbn);
         this.isbn = isbn;
     }
@@ -89,7 +89,7 @@ public class Book {
 
     public void setYear(String year) {
         Preconditions.checkNotNull(year, String.format(ErrorConstants.NOT_NULL, "year"));
-        Preconditions.checkArgument(year.matches("\\d+(\\.\\d+)?"),
+        Preconditions.checkArgument(year.matches("^(0|[1-9][0-9]*)$\n"),
             String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "year"), year);
         this.year = year;
     }
