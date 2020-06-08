@@ -48,8 +48,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void create(@RequestBody User user){
-        userRepository.save(user);
+    public User create(@RequestBody User user){
+        return userRepository.save(user);
     }
 
     @DeleteMapping("/attach/{user_id}/{book_id}")
@@ -70,5 +70,6 @@ public class UserController {
         Book book = bookRepository.findById(book_id)
             .orElseThrow(() -> new BookNotFoundException(book_id.toString(), "id"));
         user.addBook(book);
+        userRepository.save(user);
     }
 }

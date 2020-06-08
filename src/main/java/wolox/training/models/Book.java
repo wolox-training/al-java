@@ -13,9 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @ApiModel(description = "Books for users")
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -52,7 +54,7 @@ public class Book {
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
-    private List<User> users = new ArrayList<User>();
+    private List<User> user = new ArrayList<User>();
 
     public Book() { }
 
