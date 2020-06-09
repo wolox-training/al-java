@@ -11,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;Use
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.exceptions.ErrorConstants;
 import org.apache.commons.lang3.StringUtils;
