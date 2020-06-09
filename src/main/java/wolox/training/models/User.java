@@ -71,7 +71,7 @@ public class User {
 
     public void setBirthDate(LocalDate birthDate) {
         Preconditions.checkNotNull(birthDate, String.format(ErrorConstants.NOT_NULL, "birthDate"));
-        Preconditions.checkNotNull(LocalDate.now().isAfter(birthDate),
+        Preconditions.checkArgument(LocalDate.now().isAfter(birthDate),
             String.format(ErrorConstants.NOT_NULL, "birthDate"));
         this.birthDate = birthDate;
     }

@@ -12,9 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
-import org.apache.tomcat.util.codec.binary.StringUtils;
-import org.thymeleaf.util.NumberUtils;
 import wolox.training.exceptions.ErrorConstants;
+import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @ApiModel(description = "Books for users")
@@ -66,7 +65,7 @@ public class Book {
 
     public void setIsbn(String isbn) {
         Preconditions.checkNotNull(isbn, String.format(ErrorConstants.NOT_NULL, "isbn"));
-        Preconditions.checkArgument(isbn.matches("^(0|[1-9][0-9]*)$\n"),
+        Preconditions.checkArgument(StringUtils.isNumeric(isbn),
             String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "isbn"), isbn);
         this.isbn = isbn;
     }
@@ -89,7 +88,7 @@ public class Book {
 
     public void setYear(String year) {
         Preconditions.checkNotNull(year, String.format(ErrorConstants.NOT_NULL, "year"));
-        Preconditions.checkArgument(year.matches("^(0|[1-9][0-9]*)$\n"),
+        Preconditions.checkArgument(StringUtils.isNumeric(year),
             String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "year"), year);
         this.year = year;
     }
