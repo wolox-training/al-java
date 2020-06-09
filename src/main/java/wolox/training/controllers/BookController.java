@@ -1,5 +1,10 @@
 package wolox.training.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +14,7 @@ import wolox.training.repositories.BookRepository;
 
 @RestController
 @RequestMapping("/api/books")
+@Api
 public class BookController {
 
     @Autowired
@@ -34,7 +40,18 @@ public class BookController {
      * @throws BookNotFoundException (If we can't find a book by this id)
      */
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) throws BookNotFoundException{
+    @ApiOperation(value = "Giving an Id and a Book, it updates that book", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfuly updated book"),
+        @ApiResponse(code = 404, message = "Book Not Found"),
+        @ApiResponse(code = 401, message = "You are not authorized to access this resource"),
+        @ApiResponse(code = 404, message = "The resource you are trying to access was not found"),
+        @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public Book updateBook(
+        @ApiParam(value = "id to find book") @PathVariable Long id,
+        @ApiParam(value = "body of Book") @RequestBody Book book)
+        throws BookNotFoundException{
         bookRepository.findById(id)
             .orElseThrow(() -> new BookNotFoundException(id.toString(), "id"));
         return bookRepository.save(book);
