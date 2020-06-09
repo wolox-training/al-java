@@ -63,7 +63,7 @@ public class User {
 
     public void setName(String name) {
         Preconditions.checkNotNull(name, String.format(ErrorConstants.NOT_NULL, "name"));
-        Preconditions.checkArgument(!username.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"username"));
+        Preconditions.checkArgument(!name.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"name"));
         this.name = name;
     }
 
