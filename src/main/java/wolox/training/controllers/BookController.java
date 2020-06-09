@@ -17,11 +17,11 @@ import wolox.training.repositories.BookRepository;
 @Api
 public class BookController {
 
-
     @Autowired
     private BookRepository bookRepository;
 
     /**
+     * Returns the first Book that is found filtered by its author
      * @param author (Method will search a book by this field)
      * @return {@link Book} (The first book that it finds)
      * @throws BookNotFoundException (If we can't find a book by this author)
@@ -33,7 +33,7 @@ public class BookController {
     }
 
     /**
-     *
+     * Updates the given Book
      * @param id (Id of the Book)
      * @param book (Params for book update)
      * @return {@link Book} Updated book
@@ -43,7 +43,10 @@ public class BookController {
     @ApiOperation(value = "Giving an Id and a Book, it updates that book", response = Book.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfuly updated book"),
-        @ApiResponse(code = 404, message = "Book Not Found")
+        @ApiResponse(code = 404, message = "Book Not Found"),
+        @ApiResponse(code = 401, message = "You are not authorized to access this resource"),
+        @ApiResponse(code = 404, message = "The resource you are trying to access was not found"),
+        @ApiResponse(code = 500, message = "Internal server error")
     })
     public Book updateBook(
         @ApiParam(value = "id to find book") @PathVariable Long id,
@@ -55,7 +58,7 @@ public class BookController {
     }
 
     /**
-     *
+     * Deletes the given Book
      * @param id (Id of the Book)
      * @throws BookNotFoundException (If we can't find a book by this id)
      */
@@ -67,7 +70,7 @@ public class BookController {
     }
 
     /**
-     *
+     * Creates a new Book
      * @param book (The Book will be created)
      * @return {@link Book} Created book
      */

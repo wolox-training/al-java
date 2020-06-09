@@ -18,18 +18,19 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.ErrorConstants;
+import wolox.training.exceptions.BookNotFoundException;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
     @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ")
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -89,7 +90,10 @@ public class User {
         this.books.add(book);
     }
 
-    public void removeBook(Book book) {
+    public void removeBook(Book book) throws  BookNotFoundException{
+        if(!(getBooks().contains(book))){
+            throw new BookNotFoundException(String.valueOf(book.getId()), "id");
+        }
         books.remove(book);
     }
 }

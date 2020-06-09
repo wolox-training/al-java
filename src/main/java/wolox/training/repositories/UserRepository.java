@@ -7,7 +7,7 @@ import wolox.training.models.User;
 public interface UserRepository extends JpaRepository<User,Long> {
 
     /**
-     *
+     * Returns first user filtered by username
      * @param username (Method will filter by username)
      * @return {@link Optional<User>} (Will return an User or void)
      */
