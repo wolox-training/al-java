@@ -65,6 +65,7 @@ public class Book {
 
     public void setIsbn(String isbn) {
         Preconditions.checkNotNull(isbn, String.format(ErrorConstants.NOT_NULL, "isbn"));
+        Preconditions.checkArgument(!isbn.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"isbn"));
         Preconditions.checkArgument(StringUtils.isNumeric(isbn),
             String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "isbn"), isbn);
         this.isbn = isbn;
@@ -88,6 +89,7 @@ public class Book {
 
     public void setYear(String year) {
         Preconditions.checkNotNull(year, String.format(ErrorConstants.NOT_NULL, "year"));
+        Preconditions.checkArgument(!year.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"year"));
         Preconditions.checkArgument(StringUtils.isNumeric(year),
             String.format(ErrorConstants.NOT_NUMERICAL_VALUES, "year"), year);
         this.year = year;
@@ -99,6 +101,7 @@ public class Book {
 
     public void setPublisher(String publisher) {
         Preconditions.checkNotNull(publisher, String.format(ErrorConstants.NOT_NULL, "publisher"));
+        Preconditions.checkArgument(!publisher.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"publisher"));
         this.publisher = publisher;
     }
 
@@ -108,6 +111,7 @@ public class Book {
 
     public void setSubtitle(String subtitle) {
         Preconditions.checkNotNull(subtitle, String.format(ErrorConstants.NOT_NULL, "subtitle"));
+        Preconditions.checkArgument(!subtitle.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"subtitle"));
         this.subtitle = subtitle;
     }
 
@@ -117,6 +121,7 @@ public class Book {
 
     public void setAuthor(String author) {
         Preconditions.checkNotNull(author, String.format(ErrorConstants.NOT_NULL, "author"));
+        Preconditions.checkArgument(!author.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"author"));
         this.author = author;
     }
 
@@ -126,6 +131,7 @@ public class Book {
 
     public void setTitle(String title) {
         Preconditions.checkNotNull(title, String.format(ErrorConstants.NOT_NULL, "title"));
+        Preconditions.checkArgument(!title.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"title"));
         this.title = title;
     }
 
@@ -143,6 +149,7 @@ public class Book {
 
     public void setImage(String image) {
         Preconditions.checkNotNull(image, String.format(ErrorConstants.NOT_NULL, "image"));
+        Preconditions.checkArgument(!image.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"image"));
         this.image = image;
     }
 }
