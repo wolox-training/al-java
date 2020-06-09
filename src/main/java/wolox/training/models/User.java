@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.ErrorConstants;
 import wolox.training.exceptions.BookNotFoundException;
 
 @Entity
@@ -40,6 +42,8 @@ public class User {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<Book>();
 
+    public User(){}
+
     public long getId() {
         return id;
     }
@@ -49,6 +53,8 @@ public class User {
     }
 
     public void setUsername(String username) {
+        Preconditions.checkNotNull(username, String.format(ErrorConstants.NOT_NULL, "username"));
+        Preconditions.checkArgument(!username.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"username"));
         this.username = username;
     }
 
@@ -57,6 +63,8 @@ public class User {
     }
 
     public void setName(String name) {
+        Preconditions.checkNotNull(name, String.format(ErrorConstants.NOT_NULL, "name"));
+        Preconditions.checkArgument(!name.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"name"));
         this.name = name;
     }
 
@@ -65,6 +73,9 @@ public class User {
     }
 
     public void setBirthDate(LocalDate birthDate) {
+        Preconditions.checkNotNull(birthDate, String.format(ErrorConstants.NOT_NULL, "birthDate"));
+        Preconditions.checkArgument(LocalDate.now().isAfter(birthDate),
+            String.format(ErrorConstants.NOT_NULL, "birthDate"));
         this.birthDate = birthDate;
     }
 
@@ -85,6 +96,4 @@ public class User {
         }
         books.remove(book);
     }
-
-    public User(){}
 }
