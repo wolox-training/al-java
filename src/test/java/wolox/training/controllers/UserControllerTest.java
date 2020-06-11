@@ -1,9 +1,13 @@
 package wolox.training.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +15,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
@@ -21,6 +24,7 @@ import wolox.training.repositories.UserRepository;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -40,6 +44,9 @@ public class UserControllerTest {
     @MockBean
     private BookRepository mockedBookRepo;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     private User javier;
     private User marihe;
     private User robertV;
@@ -48,7 +55,7 @@ public class UserControllerTest {
     void setUp(){
         javier = new User("JaviMo", "Javier Moreno", LocalDate.parse("1980-10-08"));
         marihe = new User("MariHe", "Maria Haize", LocalDate.parse("1990-11-04"));
-        robertV = new User("RobertV", "Robert Velvet", LocalDate.parse("1975-04-11"));
+        robertV = new User("RobertVv", "Robert Velvet", LocalDate.parse("1975-04-11"));
     }
 
     List<User> allUsers = new ArrayList<User>();
@@ -83,5 +90,27 @@ public class UserControllerTest {
 
         mockMvc.perform(get("/api/users/" + -1))
             .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void givenParams_whenCreatesAnUser_thenReturnsCreatedUser() throws Exception {
+        //given(mockedUserRepo.save(marihe)).willReturn(marihe);
+
+        Mockito.when(mockedUserRepo.save(marihe)).thenReturn((robertV));
+        mockMvc.perform(post("/api/users")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(marihe)))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id", is(marihe.getId())));
+    }
+
+    public void givenParams_whenUpdatesAnUser_thenReturnsUpdatedUser() throws Exception {
+        given(mockedUserRepo.save(robertV)).willReturn(robertV);
+
+        mockMvc.perform(post("/api/users/" + robertV.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(robertV)))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id", is(robertV.getId())));
     }
 }
