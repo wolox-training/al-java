@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
@@ -129,11 +130,49 @@ public class UserControllerTest {
     public void givenParams_whenDeletesAnUser_thenReturnsNoContent() throws Exception {
         given(mockedUserRepo.findById(robertV.getId())).willReturn(
             java.util.Optional.ofNullable(robertV));
-        //given(mockedUserRepo.deleteById(robertV.getId())).willReturn(robertV);
 
         mockMvc.perform(delete("/api/users/" + robertV.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(robertV)))
             .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void givenParams_whenAttachesBookToAnUser_thenReturnsUserWithAttachedBook() throws Exception {
+        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
+            "SOME PUBLISHER", "2000", 123, "143565786");
+
+        given(mockedUserRepo.findById(robertV.getId())).willReturn(
+            java.util.Optional.ofNullable(robertV));
+
+        given(mockedBookRepo.findById(theMist.getId())).willReturn(
+            java.util.Optional.ofNullable(theMist));
+
+        given(mockedUserRepo.save(any())).willReturn(robertV);
+
+        mockMvc.perform(post("/api/users/attach/" + robertV.getId() + "/" + theMist.getId())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath( "$.books[0].title", is( theMist.getTitle())));
+    }
+
+    @Test
+    public void givenParams_whenDetachesBookToAnUser_thenReturnsOkStatus() throws Exception {
+        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
+            "SOME PUBLISHER", "2000", 123, "143565786");
+
+        robertV.addBook(theMist);
+
+        given(mockedUserRepo.findById(robertV.getId())).willReturn(
+            java.util.Optional.ofNullable(robertV));
+
+        given(mockedBookRepo.findById(theMist.getId())).willReturn(
+            java.util.Optional.ofNullable(theMist));
+
+        given(mockedUserRepo.save(any())).willReturn(robertV);
+
+        mockMvc.perform(delete("/api/users/detach/" + robertV.getId() + "/" + theMist.getId())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 }

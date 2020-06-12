@@ -115,13 +115,13 @@ public class UserController {
      * @throws BookAlreadyOwnedException (if user has that book already)
      */
     @PostMapping("/attach/{user_id}/{book_id}")
-    public void attachBook(@PathVariable Long book_id, @PathVariable Long user_id)
+    public User attachBook(@PathVariable Long book_id, @PathVariable Long user_id)
         throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
         User user = userRepository.findById(user_id)
             .orElseThrow(() -> new UserNotFoundException(user_id.toString(), "id"));
         Book book = bookRepository.findById(book_id)
             .orElseThrow(() -> new BookNotFoundException(book_id.toString(), "id"));
         user.addBook(book);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

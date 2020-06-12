@@ -67,6 +67,18 @@ public class Book {
 
     public Book() { }
 
+    public Book(String genre, String author, String title, String subtitle, String publisher,
+        String year, Integer pages, String isbn) {
+        setGenre(genre);
+        setAuthor(author);
+        setTitle(title);
+        setSubtitle(subtitle);
+        setPublisher(publisher);
+        setYear(year);
+        setPages(pages);
+        setIsbn(isbn);
+    }
+
     public long getId(){ return id; }
 
     public String getIsbn() {
