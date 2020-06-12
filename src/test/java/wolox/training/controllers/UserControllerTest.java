@@ -1,17 +1,12 @@
 package wolox.training.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,9 +17,12 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -94,23 +92,48 @@ public class UserControllerTest {
 
     @Test
     public void givenParams_whenCreatesAnUser_thenReturnsCreatedUser() throws Exception {
-        //given(mockedUserRepo.save(marihe)).willReturn(marihe);
-
-        Mockito.when(mockedUserRepo.save(marihe)).thenReturn((robertV));
+        given(mockedUserRepo.save(any())).willReturn(robertV);
         mockMvc.perform(post("/api/users")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(marihe)))
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.id", is(marihe.getId())));
-    }
-
-    public void givenParams_whenUpdatesAnUser_thenReturnsUpdatedUser() throws Exception {
-        given(mockedUserRepo.save(robertV)).willReturn(robertV);
-
-        mockMvc.perform(post("/api/users/" + robertV.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(robertV)))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.id", is(robertV.getId())));
+            .andExpect(jsonPath( "$.username", is( robertV.getUsername())));
+    }
+
+    @Test
+    public void givenParams_whenUpdatesAnUser_thenReturnsUpdatedUser() throws Exception {
+        given(mockedUserRepo.findById(robertV.getId())).willReturn(
+            java.util.Optional.ofNullable(robertV));
+        given(mockedUserRepo.save(any())).willReturn(robertV);
+
+        mockMvc.perform(put("/api/users/" + robertV.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(robertV)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath( "$.username", is( robertV.getUsername())));
+    }
+
+    @Test
+    public void givenParams_whenUpdatesAnUserWithIncorrectId_thenReturnsNotFoundException() throws Exception {
+        given(mockedUserRepo.findById(robertV.getId())).willReturn(
+            java.util.Optional.ofNullable(robertV));
+        given(mockedUserRepo.save(any())).willReturn(robertV);
+
+        mockMvc.perform(put("/api/users/" + robertV.getId() + 2)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(robertV)))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void givenParams_whenDeletesAnUser_thenReturnsNoContent() throws Exception {
+        given(mockedUserRepo.findById(robertV.getId())).willReturn(
+            java.util.Optional.ofNullable(robertV));
+        //given(mockedUserRepo.deleteById(robertV.getId())).willReturn(robertV);
+
+        mockMvc.perform(delete("/api/users/" + robertV.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(robertV)))
+            .andExpect(status().isNoContent());
     }
 }

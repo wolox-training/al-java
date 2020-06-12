@@ -49,6 +49,7 @@ public class UserController {
      * @throws UserNotFoundException (If it can't find a user by this id)
      */
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public User updateUser(@PathVariable Long id, @RequestBody User user) throws UserNotFoundException{
         userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException(id.toString(), "id"));
@@ -61,6 +62,7 @@ public class UserController {
      * @throws UserNotFoundException (If it can't find a user by this id)
      */
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws UserNotFoundException {
         userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException(id.toString(), "id"));
@@ -75,8 +77,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user){
-        User elusuario = userRepository.save(user);
-       return elusuario;
+        return userRepository.save(user);
     }
 
     /**
