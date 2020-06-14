@@ -23,7 +23,7 @@ import wolox.training.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class userTest {
+public class UserTest {
     @Autowired
     private TestEntityManager entityManager;
 
