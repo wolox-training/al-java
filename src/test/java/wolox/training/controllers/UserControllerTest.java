@@ -46,15 +46,21 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String BASE_USERS_URL = "/api/users/";
+
     private User javier;
     private User marihe;
     private User robertV;
+    Book theMist;
 
     @BeforeEach
     void setUp(){
         javier = new User("JaviMo", "Javier Moreno", LocalDate.parse("1980-10-08"));
         marihe = new User("MariHe", "Maria Haize", LocalDate.parse("1990-11-04"));
         robertV = new User("RobertVv", "Robert Velvet", LocalDate.parse("1975-04-11"));
+        theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
+
     }
 
     List<User> allUsers = new ArrayList<User>();
@@ -64,7 +70,7 @@ public class UserControllerTest {
         allUsers.add(javier);
         given(mockedUserRepo.findAll()).willReturn(allUsers);
 
-        mockMvc.perform(get("/api/users/all"))
+        mockMvc.perform(get(BASE_USERS_URL + "all"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$", hasSize(1)))
@@ -76,7 +82,7 @@ public class UserControllerTest {
         given(mockedUserRepo.findById(marihe.getId())).willReturn(
             java.util.Optional.ofNullable(marihe));
 
-        mockMvc.perform(get("/api/users/" + marihe.getId()))
+        mockMvc.perform(get(BASE_USERS_URL + marihe.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.username", is(marihe.getUsername() )));
@@ -87,7 +93,7 @@ public class UserControllerTest {
         given(mockedUserRepo.findById(marihe.getId())).willReturn(
             java.util.Optional.ofNullable(marihe));
 
-        mockMvc.perform(get("/api/users/" + -1))
+        mockMvc.perform(get(BASE_USERS_URL + -1))
             .andExpect(status().isNotFound());
     }
 
@@ -139,8 +145,6 @@ public class UserControllerTest {
 
     @Test
     public void givenParams_whenAttachesBookToAnUser_thenReturnsUserWithAttachedBook() throws Exception {
-        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
 
         given(mockedUserRepo.findById(robertV.getId())).willReturn(
             java.util.Optional.ofNullable(robertV));
@@ -158,9 +162,6 @@ public class UserControllerTest {
 
     @Test
     public void givenParams_whenDetachesBookToAnUser_thenReturnsOkStatus() throws Exception {
-        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
-
         robertV.addBook(theMist);
 
         given(mockedUserRepo.findById(robertV.getId())).willReturn(

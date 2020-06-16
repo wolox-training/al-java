@@ -6,9 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Optional;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +31,15 @@ public class UserTest {
     @MockBean
     private User user;
 
+    @MockBean
+    private Book theMist;
+
     @BeforeEach
     void setUp() {
+
         user = new User("marihe", "Mary Heize", LocalDate.of(1995,03,11));
+        theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
     }
 
     @Test
@@ -68,8 +72,6 @@ public class UserTest {
     @Test
     public void whenAddBookToUser_returnsUserWithAddedBook()
         throws BookAlreadyOwnedException {
-        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         assertTrue(() -> user.getBooks().contains(theMist));
     }
@@ -77,8 +79,6 @@ public class UserTest {
     @Test
     public void whenAddBookThatUserAlreadyHas_throwsCorrectException()
         throws BookAlreadyOwnedException {
-        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         assertThrows(BookAlreadyOwnedException.class, () -> user.addBook(theMist));
     }
@@ -86,8 +86,6 @@ public class UserTest {
     @Test
     public void whenRemoveBookOfUser_returnsUserWithoutRemovedBook()
         throws BookAlreadyOwnedException, BookNotFoundException {
-        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         user.removeBook(theMist);
         assertFalse(() -> user.getBooks().contains(theMist));
@@ -96,8 +94,6 @@ public class UserTest {
     @Test
     public void whenRemoveBookThatUserHasNot_throwsCorrectException()
         throws BookAlreadyOwnedException, BookNotFoundException {
-        Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         user.removeBook(theMist);
         assertThrows(BookNotFoundException.class, () -> user.removeBook(theMist));

@@ -13,7 +13,6 @@ import static org.mockito.ArgumentMatchers.any;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +41,9 @@ class BookControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String BASE_BOOKS_URL = "/api/books/";
+
+
     @BeforeEach
     void setUp() {
         theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
@@ -53,7 +55,7 @@ class BookControllerTest {
         given(mockedBookRepository.findFirstByAuthor("The Mist")).willReturn(
             java.util.Optional.ofNullable(theMist));
 
-        mockMvc.perform(get("/api/books/author/" + theMist.getTitle()))
+        mockMvc.perform(get(BASE_BOOKS_URL + "author/" + theMist.getTitle()))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.isbn", is(theMist.getIsbn())));
@@ -66,7 +68,7 @@ class BookControllerTest {
             java.util.Optional.ofNullable(theMist));
 
         mockMvc
-            .perform(get(URI.create(String.format("/api/books/author/%s", "NoExistingBook")))
+            .perform(get(URI.create(String.format(BASE_BOOKS_URL + "author/%s", "NoExistingBook")))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound());
     }
@@ -82,10 +84,11 @@ class BookControllerTest {
 
         given(mockedBookRepository.save(any())).willReturn(theMist);
 
-        mockMvc.perform(put("/api/books/" + theMist.getId())
+        mockMvc.perform(put(BASE_BOOKS_URL + theMist.getId())
             .content(objectMapper.writeValueAsString(theMist))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.publisher", is(theMist.getPublisher())));
     }
 
@@ -95,7 +98,7 @@ class BookControllerTest {
         given(mockedBookRepository.findById(theMist.getId())).willReturn(
             java.util.Optional.ofNullable(theMist));
 
-        mockMvc.perform(delete(URI.create(String.format("/api/books/%d", theMist.getId())))
+        mockMvc.perform(delete(URI.create(String.format(BASE_BOOKS_URL + "%d", theMist.getId())))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
@@ -103,9 +106,10 @@ class BookControllerTest {
     public void givenValidBook_whenCreatesIt_thenReturnsBook() throws Exception {
         given(mockedBookRepository.save(any())).willReturn(theMist);
 
-        mockMvc.perform(post(URI.create("/api/books"))
+        mockMvc.perform(post(URI.create(BASE_BOOKS_URL))
             .content(objectMapper.writeValueAsString(theMist))
             .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentType("application/json"))
             .andExpect(status().isCreated());
     }
 
