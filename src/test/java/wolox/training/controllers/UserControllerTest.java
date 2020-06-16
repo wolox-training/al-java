@@ -46,6 +46,8 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String BASE_USERS_URL = "/api/users/";
+
     private User javier;
     private User marihe;
     private User robertV;
@@ -68,7 +70,7 @@ public class UserControllerTest {
         allUsers.add(javier);
         given(mockedUserRepo.findAll()).willReturn(allUsers);
 
-        mockMvc.perform(get("/api/users/all"))
+        mockMvc.perform(get(BASE_USERS_URL + "all"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$", hasSize(1)))
@@ -80,7 +82,7 @@ public class UserControllerTest {
         given(mockedUserRepo.findById(marihe.getId())).willReturn(
             java.util.Optional.ofNullable(marihe));
 
-        mockMvc.perform(get("/api/users/" + marihe.getId()))
+        mockMvc.perform(get(BASE_USERS_URL + marihe.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.username", is(marihe.getUsername() )));
@@ -91,7 +93,7 @@ public class UserControllerTest {
         given(mockedUserRepo.findById(marihe.getId())).willReturn(
             java.util.Optional.ofNullable(marihe));
 
-        mockMvc.perform(get("/api/users/" + -1))
+        mockMvc.perform(get(BASE_USERS_URL + -1))
             .andExpect(status().isNotFound());
     }
 
