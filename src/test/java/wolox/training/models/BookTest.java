@@ -29,7 +29,7 @@ public class BookTest {
     @BeforeEach
     void setUp(){
         book = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
     }
 
     @Test

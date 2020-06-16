@@ -69,7 +69,7 @@ public class UserTest {
     public void whenAddBookToUser_returnsUserWithAddedBook()
         throws BookAlreadyOwnedException {
         Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         assertTrue(() -> user.getBooks().contains(theMist));
     }
@@ -78,7 +78,7 @@ public class UserTest {
     public void whenAddBookThatUserAlreadyHas_throwsCorrectException()
         throws BookAlreadyOwnedException {
         Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         assertThrows(BookAlreadyOwnedException.class, () -> user.addBook(theMist));
     }
@@ -87,7 +87,7 @@ public class UserTest {
     public void whenRemoveBookOfUser_returnsUserWithoutRemovedBook()
         throws BookAlreadyOwnedException, BookNotFoundException {
         Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         user.removeBook(theMist);
         assertFalse(() -> user.getBooks().contains(theMist));
@@ -97,7 +97,7 @@ public class UserTest {
     public void whenRemoveBookThatUserHasNot_throwsCorrectException()
         throws BookAlreadyOwnedException, BookNotFoundException {
         Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
         user.addBook(theMist);
         user.removeBook(theMist);
         assertThrows(BookNotFoundException.class, () -> user.removeBook(theMist));

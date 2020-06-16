@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookNotFoundException;
@@ -75,6 +76,7 @@ public class BookController {
      * @return {@link Book} Created book
      */
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book){
         return bookRepository.save(book);
     }

@@ -140,7 +140,7 @@ public class UserControllerTest {
     @Test
     public void givenParams_whenAttachesBookToAnUser_thenReturnsUserWithAttachedBook() throws Exception {
         Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
 
         given(mockedUserRepo.findById(robertV.getId())).willReturn(
             java.util.Optional.ofNullable(robertV));
@@ -159,7 +159,7 @@ public class UserControllerTest {
     @Test
     public void givenParams_whenDetachesBookToAnUser_thenReturnsOkStatus() throws Exception {
         Book theMist = new Book("Terror", "Stephen King", "The Mist", "no value",
-            "SOME PUBLISHER", "2000", 123, "143565786");
+            "SOME PUBLISHER", "2000", 123, "143565786", "imageOfBook");
 
         robertV.addBook(theMist);
 

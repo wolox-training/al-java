@@ -68,7 +68,7 @@ public class Book {
     public Book() { }
 
     public Book(String genre, String author, String title, String subtitle, String publisher,
-        String year, Integer pages, String isbn) {
+        String year, Integer pages, String isbn, String image) {
         setGenre(genre);
         setAuthor(author);
         setTitle(title);
@@ -77,6 +77,7 @@ public class Book {
         setYear(year);
         setPages(pages);
         setIsbn(isbn);
+        setImage(image);
     }
 
     public long getId(){ return id; }
