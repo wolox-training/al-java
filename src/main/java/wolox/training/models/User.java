@@ -42,6 +42,8 @@ public class User {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<Book>();
 
+    public User(){};
+
     public User(String username, String name, LocalDate birthDate) {
         setUsername(username);
         setName(name);

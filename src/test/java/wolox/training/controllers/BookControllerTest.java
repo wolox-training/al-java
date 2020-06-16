@@ -23,13 +23,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookController.class)
-
-
 class BookControllerTest {
 
     @Autowired
@@ -43,6 +42,7 @@ class BookControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
 
     @BeforeEach
     void setUp() {
@@ -88,6 +88,7 @@ class BookControllerTest {
             .content(objectMapper.writeValueAsString(theMist))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.publisher", is(theMist.getPublisher())));
     }
 
@@ -108,6 +109,7 @@ class BookControllerTest {
         mockMvc.perform(post(URI.create("/api/books"))
             .content(objectMapper.writeValueAsString(theMist))
             .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentType("application/json"))
             .andExpect(status().isCreated());
     }
 
