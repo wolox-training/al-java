@@ -28,8 +28,6 @@ import wolox.training.repositories.BookRepository;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookController.class)
-
-
 class BookControllerTest {
 
     @Autowired
