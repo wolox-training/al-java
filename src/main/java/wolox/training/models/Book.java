@@ -18,7 +18,7 @@ import wolox.training.exceptions.ErrorConstants;
 import org.apache.commons.lang3.StringUtils;
 
 @Entity
-@ApiModel(description = "Book for users")
+@ApiModel(description = "Books for users")
 @Table(name = "books")
 public class Book {
 
