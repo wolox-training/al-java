@@ -1,6 +1,6 @@
 package wolox.training.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,11 +33,10 @@ public class UserController {
      * @return {@link User} (The first user that it finds)
      * @throws UserNotFoundException (If it can't find a user by this id)
      */
-    @GetMapping
+    @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) throws UserNotFoundException {
-        User user = userRepository.findById(id)
+        return userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException(id.toString(), "id"));
-        return user;
     }
 
     /**
@@ -77,6 +76,15 @@ public class UserController {
     }
 
     /**
+     * Returns all users
+     * @return {@link List<User>} (All users)
+     */
+    @GetMapping("/all")
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+    /**
      * Detaches existing book from user
      * @param book_id (the id of the book that we try to detach)
      * @param user_id (the id of the user we want)
@@ -109,5 +117,6 @@ public class UserController {
         Book book = bookRepository.findById(book_id)
             .orElseThrow(() -> new BookNotFoundException(book_id.toString(), "id"));
         user.addBook(book);
+        userRepository.save(user);
     }
 }

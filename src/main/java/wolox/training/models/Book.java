@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import wolox.training.exceptions.ErrorConstants;
 import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @ApiModel(description = "Books for users")
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -62,6 +65,10 @@ public class Book {
 
     @ManyToMany(mappedBy = "books")
     private List<User> users = new ArrayList<User>();
+
+    public List<User> getUsers() {
+        return (List<User>) Collections.unmodifiableList(users);
+    }
 
     public Book() { }
 
