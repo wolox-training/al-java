@@ -23,7 +23,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("MANDALE CHACRAAAAAAAAAAAAAAAAAAAAAAAA");
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
         Optional<User> user = userRepository.findFirstByUsername(name);
