@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.google.common.base.Preconditions;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,14 +13,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.ErrorConstants;
 import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.services.passwordEncoderService;
 
 @Entity
 @Table(name = "users")
@@ -39,6 +40,10 @@ public class User {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    @Column(nullable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private String password;
+
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<Book>();
 
@@ -56,6 +61,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new NullPointerException("Password must not be null");
+        } else {
+            this.password = passwordEncoderService.encode(password);
+        }
     }
 
     public void setUsername(String username) {
@@ -101,5 +114,9 @@ public class User {
             throw new BookNotFoundException(String.valueOf(book.getId()), "id");
         }
         books.remove(book);
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
