@@ -27,7 +27,8 @@ dependencies {
 	compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testCompile('com.h2database:h2')
 }
 
 test {
